@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
       itemBuilder: (context, index) => Card(
         child: ListTile(
           title: Text(notes[index].title),
-          trailing: IconButton(onPressed: ()=>setState(()=>notes.removeAt(index)), icon: Icon(Icons.delete)),
+          trailing: IconButton(onPressed: () => _confirmDeletion(index), icon: Icon(Icons.delete)),
           onTap: () async {
             Note result = await Navigator.push(context, MaterialPageRoute(builder: (newContext) => NoteScreen(note: notes[index])));
             setState(()=>notes[index] = result);
@@ -63,6 +63,24 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
 
   );
+
+  void _confirmDeletion(int index){
+    showDialog(
+        context: context,
+        builder: (newContext) => AlertDialog(
+          title: Text("Delete ' ${notes[index].title} ' ?"),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(newContext), child: Text("CANCEL")),
+            TextButton(
+                onPressed: () {
+                  setState(()=>notes.removeAt(index));
+                  Navigator.pop(newContext);
+                  },
+                child: Text("CONFIRM")),
+          ],
+        )
+    );
+  }
 }
 
 class NoteScreen extends StatefulWidget {
