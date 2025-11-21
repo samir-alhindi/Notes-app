@@ -108,44 +108,47 @@ class _NoteScreenState extends State<NoteScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result)=> didPop ?null : Navigator.pop(context, widget.note),
       child: Scaffold(
+        //resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: Colors.yellow,
           ),
 
           body: Container(
             margin: EdgeInsets.all(15),
-        child: Column(
-
-          children: [
-
-            TextFormField(
-              initialValue: widget.note.title,
-              autofocus: true,
-              autocorrect: true,
-              textCapitalization: TextCapitalization.sentences,
-              maxLength: 100,
-              decoration: InputDecoration(
-                  hint: Text("Note title here", style: TextStyle(
-                      color: Colors.grey.withAlpha(125)
-                  ),
-                  )
+        child: SingleChildScrollView(
+          child: Column(
+          
+            children: [
+          
+              TextFormField(
+                initialValue: widget.note.title,
+                autofocus: true,
+                autocorrect: true,
+                textCapitalization: TextCapitalization.sentences,
+                maxLength: 100,
+                decoration: InputDecoration(
+                    hint: Text("Note title here", style: TextStyle(
+                        color: Colors.grey.withAlpha(125)
+                    ),
+                    )
+                ),
+                onChanged: (title) => setState(()=> widget.note.title = title),
               ),
-              onChanged: (title) => setState(()=> widget.note.title = title),
-            ),
-
-            TextFormField(
-              initialValue: widget.note.body,
-              keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
-                hint: Text("Note body here", style: TextStyle(
-                    color: Colors.grey.withAlpha(125)
-              ))),
-              maxLines: null,
-              autocorrect: true,
-              textCapitalization: TextCapitalization.sentences,
-              onChanged: (body) => setState(()=> widget.note.body = body)
-            ),
-          ],
+          
+              TextFormField(
+                initialValue: widget.note.body,
+                keyboardType: TextInputType.multiline,
+                decoration: InputDecoration(
+                  hint: Text("Note body here", style: TextStyle(
+                      color: Colors.grey.withAlpha(125)
+                ))),
+                maxLines: null,
+                autocorrect: true,
+                textCapitalization: TextCapitalization.sentences,
+                onChanged: (body) => setState(()=> widget.note.body = body)
+              ),
+            ],
+          ),
         ),
           )
         ),
