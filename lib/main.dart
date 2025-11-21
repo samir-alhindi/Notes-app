@@ -4,7 +4,6 @@ import 'package:hive_flutter/adapters.dart';
 import 'note.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(NoteAdapter());
@@ -31,8 +30,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  //List<Note> notes = [];
-
   @override
   Widget build(BuildContext context) => Scaffold(
 
@@ -42,20 +39,20 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.yellow,
     ),
 
-    body: widget.notesBox.isEmpty ? Center(child: Text("No notes added yet", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),)) :
+    body: widget.notesBox.isEmpty ? Center(child: Text("No notes added yet", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),))
 
-    ListView.separated(
+    : ListView.separated(
       padding: EdgeInsets.all(8.0),
       itemCount: widget.notesBox.length,
       separatorBuilder: (BuildContext context, int index) => SizedBox(height: 10),
       itemBuilder: (context, index) => Card(
         child: ListTile(
-          title: Text(widget.notesBox.getAt(index)?.title ?? "null"),
+          title: Text(widget.notesBox.getAt(index)?.title ?? "[Error 404]"),
           trailing: IconButton(onPressed: () => _confirmDeletion(index), icon: Icon(Icons.delete)),
           onTap: () async {
-            Note result = await Navigator.push(context, MaterialPageRoute(builder: (newContext) => NoteScreen(note: widget.notesBox.getAt(index)??Note(title: "null", body: "null"))));
+            Note result = await Navigator.push(context, MaterialPageRoute(builder: (newContext) => NoteScreen(note: widget.notesBox.getAt(index)??Note())));
             widget.notesBox.putAt(index, result);
-            setState(()=>null);
+            setState((){});
             } ,
           ),
       ),
@@ -66,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onPressed: () async {
         Note result = await Navigator.push(context, MaterialPageRoute(builder: (newContext) => NoteScreen(note: Note())));
         widget.notesBox.add(result);
-        setState(()=>null);
+        setState((){});
       },
       child: Icon(Icons.add)
     ),
@@ -83,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
             TextButton(
                 onPressed: () {
                   widget.notesBox.deleteAt(index);
-                  setState(() => null);
+                  setState(() {});
                   Navigator.pop(newContext);
                   },
                 child: Text("CONFIRM")),
@@ -150,7 +147,7 @@ class _NoteScreenState extends State<NoteScreen> {
             ),
           ],
         ),
-      )
+          )
         ),
     );}
 }
